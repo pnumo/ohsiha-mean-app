@@ -11,10 +11,13 @@
     "debug": "~2.6.0",
     "ejs": "^2.5.6",
     "express": "^4.14.1",
+    "express-react-views": "^0.10.2",
     "mongojs": "^2.4.0",
     "morgan": "~1.7.0",
     "nodemon": "^1.11.0",
     "pug": "~2.0.0-beta10",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "serve-favicon": "~2.3.2"
   }
 }
