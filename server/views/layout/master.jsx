@@ -12,6 +12,13 @@ module.exports = React.createClass({
 				</head>
 
 				<body>
+					<a href="/">Index</a>
+					<br/>
+					<a href="/register">Register</a>
+					<br/>
+					<a href="/login">Login</a>
+					<br/>
+
 					{this.props.children}
 				</body>
 			</html>
