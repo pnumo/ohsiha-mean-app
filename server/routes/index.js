@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+
+var mongojs = require('mongojs');
+var db = mongojs('mongodb://pnumo:pnumo@ds143777.mlab.com:43777/ohsiha-mean-app', ['Users']);
+
 
 function ensureAuthenticated(req, res, next) {
 	if(req.isAuthenticated()) {
@@ -11,49 +14,40 @@ function ensureAuthenticated(req, res, next) {
 	}
 }
 
-
 router.get('/', function(req, res, next) {
-	res.render('index', {name: "Index"});
+	res.render('index');
 });
 
 router.get('/login', function(req, res, next) {
-	res.render('login', {name: "Login"});
+	res.render('login');
 });
 
 router.get('/register', function(req, res, next) {
-	res.render('register', {name: "Register"});
+	res.render('register');
 });
 
+router.get('/users', function(req, res, next) {
+	db.Users.find(function(err, users) {
+		if(err) {
+			res.send(err);
+		} else {
+			res.json(users);
+		}
+	})
+});
 
-router.post('/login', passport.authenticate('local', { successRedirect: '/', 
-	failureRedirect: '/login' }));
+router.get('/user/:id', function(req, res, next) {
+	db.Users.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, users) {
+		if(err) {
+			res.send(err);
+		} else {
+			res.json(user);
+		}
+	})
+});
 
-router.post('/register', function(req, res, next) {
-	var username = req.body.username;
-  	var password = req.body.password;
-  	var firstname = req.body.firstname;
-  	var lastname = req.body.lastname;
-  	var email = req.body.email;
-  	var phonenumber = req.body.phonenumber;
-  	var organizer = req.body.organizer;
-
-  	req.checkBody('username', 'Username is required').notEmpty();
-  	req.checkBody('password', 'Password is required').notEmpty();
-  	req.checkBody('firstname', 'First name is required').notEmpty();
-  	req.checkBody('lastname', 'Last name is required').notEmpty();
-  	req.checkBody('email', 'Email is required').notEmpty();
-  	req.checkBody('email', 'Email is not valid').isEmail();
-  	req.checkBody('phonenumber', 'Phone number is required').notEmpty();
-  	req.checkBody('organizer', 'League organizer is required').notEmpty();
-
-  	var errors = req.validationErrors();
-
-  	if(errors) {
-  		res.render('register', { errors: errors });
-  	} else {
-  		//add new user
-  		res.redirect('/');
-  	}
+router.get('/profile', function(req, res, next) {
+	res.render('/profile');
 });
 
 router.all('/logout', function(req, res, next) {
@@ -61,14 +55,11 @@ router.all('/logout', function(req, res, next) {
 	res.redirect('/', { message: 'User has logged out.' });
 });
 
-passport.use('local-signup', new LocalStrategy(
-	{
-		usernameField: 'username',
-		passwordField: 'password'
-	},
-	function(username, password, done) {
-	}
-));
+router.post('/login', passport.authenticate('local', { successRedirect: '/', 
+	failureRedirect: '/login' }));
+
+router.post('/register', function(req, res, next) {
+});
 
 passport.serializeUser(function(user, done) {
 	done(null, user['username']);
