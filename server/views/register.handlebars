@@ -1,38 +1,33 @@
-<h1>Register</h1>
-<br>
+<h2 class="page-header">Register</h1>
+
+{{#if errors}}
+	{{#each errors}}
+		<div class="alert alert-danger">
+			{{msg}}
+		</div>
+	{{/each}}
+{{/if}}
 
 <form method="post" action="/register">
-	<ul>
-		<li>
-			<label>Username: </label>
-			<input type="text" name="username"/>
-		</li>
+	<div class="form-group">
+		<label>Username</label>
+		<input type="text" name="username" class="form-control">
+	</div>
 
-		<br>
+	<div class="form-group">
+		<label>Email</label>
+		<input type="text" name="email" class="form-control">
+	</div>
 
-		<li>
-			<label>Email: </label>
-			<input type="email" name="email"/>
-		</li>
+	<div class="form-group">
+		<label>Password</label>
+		<input type="password" name="password" class="form-control">
+	</div>
 
-		<br>
+	<div class="form-group">
+		<label>Confirm password</label>
+		<input type="password" name="password2" class="form-control">
+	</div>
 
-		<li>
-			<label>Password: </label>
-			<input type="password" name="password1"/>
-		</li>
-
-		<br>
-
-		<li>
-			<label>Retype password: </label>
-			<input type="password" name="password2"/>
-		</li>
-
-		<br>
-
-		<li>
-			<input type="submit" value="Register"/>
-		</li>
-	</ul>
+	<input type="submit" value="Register" class="btn btn-default">
 </form>
