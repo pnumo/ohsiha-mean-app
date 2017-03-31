@@ -12,6 +12,10 @@ var UserSchema = mongoose.Schema({
 	},
 	email: {
 		type: String
+	},
+	messages: {
+		type: Array,
+		message: [{from: String, message: String}]
 	}
 });
 

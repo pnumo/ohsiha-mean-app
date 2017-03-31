@@ -1,2 +1,54 @@
-<h2 class="page-header">Home</h1>
-<br>
+<h2 class="page-header">Home</h2>
+
+{{#if user}}
+	<p class="lead">
+		Hello, {{user.username}}
+		<br>
+		You can now view your messages or send a new one.
+	</p>
+	<br>
+	<button type"button" class="btn btn-info btn-lg" data-toggle="modal" 
+	data-target="#newMessage">Send Message</button>
+		<div id="newMessage" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<form method="post" action="/sendmessage">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        				<h4 class="modal-title">Send Message</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="comment">Send to:</label>
+								<input type="text" name="receiver" 
+								class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="comment">Message:</label>
+								<textarea name="message" class="form-control" 
+								rows="5" id="comment"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" id="sendMsgBtn" class="btn btn-success" 
+							value="Send">
+							<button type="button" class="btn btn-default" 
+							data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+{{else}}
+	<p class="lead">
+		A simple social media app in which users can send messages to each other.
+		<br>
+		Start by making an account.
+	</p>
+{{/if}}
+
+<script>
+	$('#sendMsgBtn').click(function() {
+		$('#newMessage').modal('hide');
+	});
+</script>

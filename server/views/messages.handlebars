@@ -1,0 +1,9 @@
+<h2 class="page-header">My Messages</h2>
+
+{{#each user.messages}}
+	<div>
+		<p>From: {{this.from}}</p>
+		<p>Message: {{this.message}}</p>
+	</div>
+	<br>
+{{/each}}

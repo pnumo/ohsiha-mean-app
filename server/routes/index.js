@@ -27,6 +27,20 @@ router.get('/', function(req, res, next) {
 	res.render('index');
 });
 
+router.post('/sendmessage', function(req, res, next) {
+	var newMessage = {from: req.user.username, message: req.body.message};
+	User.getUserByUsername(req.body.receiver, function(err, user) {
+		if(err) throw err;
+		user.messages.push(newMessage);
+		user.save();
+	});
+	res.redirect('/');
+});
+
+router.get('/messages', function(req, res, next) {
+	res.render('messages');
+});
+
 // Login user routes
 router.get('/login', function(req, res, next) {
 	res.render('login');

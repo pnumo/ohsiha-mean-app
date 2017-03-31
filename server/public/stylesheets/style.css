@@ -1,6 +1,7 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: #dfe3ee;
 }
 
 .header,
@@ -58,4 +59,14 @@ ul {
 
 footer {
   margin-top: 40px;
+}
+
+.logo-s {
+  height: 44px;
+  width: 44px;
+}
+
+.container-custom {
+  background-color: #f7f7f7;
+  padding: 20px;
 }
