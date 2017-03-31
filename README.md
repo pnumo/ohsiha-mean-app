@@ -1,1 +1,1 @@
-# ohsiha-mean-app
+# Simple Social Media
