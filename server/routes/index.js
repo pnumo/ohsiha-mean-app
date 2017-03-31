@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 	res.render('index');
 });
 
-router.post('/sendmessage', function(req, res, next) {
+router.post('/sendmessage', ensureAuthenticated, function(req, res, next) {
 	var newMessage = {from: req.user.username, message: req.body.message};
 	User.getUserByUsername(req.body.receiver, function(err, user) {
 		if(err) throw err;
@@ -37,8 +37,26 @@ router.post('/sendmessage', function(req, res, next) {
 	res.redirect('/');
 });
 
-router.get('/messages', function(req, res, next) {
+router.get('/messages', ensureAuthenticated, function(req, res, next) {
 	res.render('messages');
+});
+
+router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {
+	var from = req.body.from;
+	var message = req.body.message;
+
+	User.getUserByUsername(req.user.username, function(err, user) {
+		if(err) throw err;
+		for(var i = user.messages.length-1; i >= 0; i--) {
+			if(user.messages[i].message === message && 
+				user.messages[i].from === from) {
+				user.messages.splice(i, 1);
+				user.save();
+			}
+		}
+	});
+
+	res.redirect('/messages')
 });
 
 // Login user routes

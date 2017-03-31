@@ -1,9 +1,15 @@
 <h2 class="page-header">My Messages</h2>
+<script src="/javascripts/messages.js"></script>
 
 {{#each user.messages}}
-	<div>
-		<p>From: {{this.from}}</p>
-		<p>Message: {{this.message}}</p>
+	<div class="msg_div">
+		<label>From: </label>
+		<label id="from">{{this.from}}</label>
+		<button class="del_msg_btn btn btn-warning pull-right">Delete</button>
+		<br>
+		<label>Message: </label>
+		<label id="msg_text">{{this.message}}</label>
+		<br>
+		<br>
 	</div>
-	<br>
 {{/each}}
