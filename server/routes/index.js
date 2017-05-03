@@ -27,6 +27,62 @@ router.get('/', function(req, res, next) {
 	res.render('index');
 });
 
+router.get('/profile', ensureAuthenticated, function(req, res, next) {
+	res.render('profile');
+});
+
+router.post('/profile', ensureAuthenticated, function(req, res, next) {
+	var email = req.body.newEmail;
+	var password = req.body.newPassword;
+	var password2 = req.body.newPassword2;
+
+	console.log(email);
+
+	req.checkBody('newEmail', 'Email is required.').notEmpty();
+	req.checkBody('newEmail', 'Email is not valid.').isEmail();
+
+	if(password != "") {
+		req.checkBody('newPassword2', 'Passwords do not match.').equals(
+			req.body.newPassword);
+	}
+
+	var errors = req.validationErrors();
+
+	if(errors) {
+		res.render('profile', {errors: errors});
+		console.log(errors);
+	} else {
+		console.log("Trying to update info.");
+		if(email != req.user.email) {
+			User.changeEmail(req.user, email, function(err) {
+				if(err) throw err;
+			});
+			console.log("Updated email.");
+		}
+		if(password != "") {
+			User.changePassword(req.user, password, function(err) {
+				if(err) throw err;
+			});
+			console.log("Updated password.");
+		}
+	
+		req.flash('success_msg', 'You successfully updated your profile.');
+		res.redirect('/profile');
+	}
+});
+
+router.get('/users', ensureAuthenticated, function(req, res, next) {
+	User.find({}, function(err, users) {
+		users.sort(function(a, b) {
+			if(a.username < b.username) return -1;
+			if(a.username > b.username) return 1;
+			return 0;
+		});
+
+		res.render('users', {users: users});
+	});
+});
+
 router.post('/sendmessage', ensureAuthenticated, function(req, res, next) {
 	var newMessage = {from: req.user.username, message: req.body.message};
 	User.getUserByUsername(req.body.receiver, function(err, user) {
@@ -34,6 +90,8 @@ router.post('/sendmessage', ensureAuthenticated, function(req, res, next) {
 		user.messages.push(newMessage);
 		user.save();
 	});
+
+	req.flash('success_msg', 'You successfully sent message.');
 	res.redirect('/');
 });
 
@@ -56,7 +114,8 @@ router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {
 		}
 	});
 
-	res.redirect('/messages')
+	req.flash('success_msg', 'You successfully deleted a message.');
+	res.redirect('/messages');
 });
 
 // Login user routes
@@ -102,13 +161,12 @@ router.post('/register', function(req, res, next) {
 		});
 
 		req.flash('success_msg', 'You successfully registered and can now log in.');
-
 		res.redirect('/login');
 	}
 });
 
 // Logout user
-router.get('/logout', function(req, res) {
+router.get('/logout', ensureAuthenticated, function(req, res) {
 	req.logout();
 	req.flash('success_msg', 'You are logged out.');
 	res.redirect('/login');

@@ -15,8 +15,11 @@
       		<div class="header clearfix">
         		<nav>
           			<ul class="nav nav-pills pull-right">
+                  <li role="presentation"><a href="/">Home</a></li>
 			            {{#if user}}
+                  <li role="presentation"><a href="/users">Users</a></li>
                   <li role="presentation"><a href="/messages">My Messages</a></li>
+                  <li role="presentation"><a href="/profile">Profile</a></li>
 			            <li role="presentation"><a href="/logout">Logout</a></li>
 			            {{else}}
 			            <li role="presentation"><a href="/login">Login</a></li>
@@ -29,6 +32,7 @@
             </a>
        			<h3 class="text-muted">Social media app</h3>
       		</div>
+          <br>
 
      		<div class="row">
        			<div class="col-lg-12">

@@ -1,0 +1,46 @@
+<h2 class="page-header">List of users</h2>
+<script src="/javascripts/users.js"></script>
+
+<h4>Click username to send a message.</h4>
+
+<br>
+
+{{#each users}}
+	<div>
+		<img src="/images/user.png" class="userpic" alt="default user img">
+		<label class="userInList" data-toggle="modal" data-target="#newMessage">{{this.username}}</label>
+	<div>
+	<br>
+	<br>
+
+	<div id="newMessage" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<form method="post" action="/sendmessage">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        			<h4 class="modal-title">Send Message</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="comment">Send to:</label>
+							<input type="text" name="receiver" 
+							class="form-control receiver">
+						</div>
+						<div class="form-group">
+							<label for="comment">Message:</label>
+							<textarea name="message" class="form-control" 
+							rows="5" id="comment"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" id="sendMsgBtn" class="btn btn-success" 
+						value="Send">
+						<button type="button" class="btn btn-default" 
+						data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{{/each}}

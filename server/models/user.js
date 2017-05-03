@@ -30,6 +30,24 @@ module.exports.createUser = function(newUser, callback) {
 	});
 }
 
+module.exports.changePassword = function(user, newPassword, callback) {
+	User.getUserByUsername(user.username, function(err, user) {
+		bcrypt.genSalt(10, function(err, salt) {
+			bcrypt.hash(newPassword, salt, function(err, hash) {
+				user.password = hash;
+				user.save(callback);
+			});
+		});
+	});
+}
+
+module.exports.changeEmail = function(user, newEmail, callback) {
+	User.getUserByUsername(user.username, function(err, user) {
+		user.email = newEmail;
+		user.save(callback);
+	});
+}
+
 module.exports.getUserByUsername = function(username, callback) {
 	var query = {username: username};
 	User.findOne(query, callback);

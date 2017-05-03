@@ -13,7 +13,7 @@ $(function() {
 						type: 'POST',
 						url: '/deletemessage',
 						data: {from: from, message: msg},
-						success: function(result) {
+						success: function(res) {
 							parent_div.remove();
 						},
 						error: function(err) {
