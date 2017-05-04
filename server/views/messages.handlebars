@@ -1,15 +1,61 @@
 <h2 class="page-header">My Messages</h2>
 <script src="/javascripts/messages.js"></script>
 
-{{#each user.messages}}
-	<div class="msg_div">
-		<label>From: </label>
-		<label id="from">{{this.from}}</label>
-		<button class="del_msg_btn btn btn-warning pull-right">Delete</button>
-		<br>
-		<label>Message: </label>
-		<label id="msg_text">{{this.message}}</label>
-		<br>
-		<br>
+<div id="#msg-tabs" class="container">
+	<ul class="nav nav-tabs">
+		<li>
+			<a href="#tab1" data-toggle="tab">Received</a>
+		</li>
+
+		<li>
+			<a href="#tab2" data-toggle="tab">Sent</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane" id="tab1">
+			<br>
+			{{#each user.messages}}
+				<div class="msg_div">
+					<div class="btn-toolbar pull-right">
+						<button class="del_msg_btn btn btn-warning">Delete</button>
+					</div>
+
+					<label>From: </label>
+					<label id="from">{{this.from}}</label>
+
+					<br>
+
+					<label>Message: </label>
+					<label id="msg_text">{{this.message}}</label>
+
+					<br>
+					<br>
+				</div>
+			{{/each}}
+		</div>
+
+		<div class="tab-pane" id="tab2">
+			<br>
+			{{#each messages}}
+				<div class="msg_div">
+					<div class="btn-toolbar pull-right">
+						<button class="edit_msg_btn btn btn-info">Edit</button>
+						<button class="del_msg_btn2 btn btn-warning">Delete</button>
+					</div>
+
+					<label>To: </label>
+					<label id="from">{{this.to}}</label>
+
+					<br>
+
+					<label>Message: </label>
+					<label id="msg_text">{{this.msg}}</label>
+
+					<br>
+					<br>
+				</div>
+			{{/each}}
+		</div>
 	</div>
-{{/each}}
+</div>

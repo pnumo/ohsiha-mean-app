@@ -63,3 +63,8 @@ module.exports.comparePassword = function(password, hash, callback) {
 		callback(null, isMatch);
 	});
 }
+
+module.exports.getSentMessages = function(user, callback) {
+	User.find({'messages.from': user.username}).select(
+		'username messages.message').exec(callback);
+}

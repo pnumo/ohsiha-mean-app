@@ -3,8 +3,8 @@ $(function() {
 		e.preventDefault();
 		var parent_div = $(this).closest('div');
 
-		var from = $(this).siblings('#from').text();
-		var msg = $(this).siblings('#msg_text').text();
+		var from = $(parent_div).siblings('#from').text();
+		var msg = $(parent_div).siblings('#msg_text').text();
 
 		bootbox.confirm("Delete this message?", 
 			function(result) { 
@@ -14,7 +14,7 @@ $(function() {
 						url: '/deletemessage',
 						data: {from: from, message: msg},
 						success: function(res) {
-							parent_div.remove();
+							parent_div.parent().remove();
 						},
 						error: function(err) {
 							console.log(err);

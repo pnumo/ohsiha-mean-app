@@ -96,7 +96,23 @@ router.post('/sendmessage', ensureAuthenticated, function(req, res, next) {
 });
 
 router.get('/messages', ensureAuthenticated, function(req, res, next) {
-	res.render('messages');
+	User.getSentMessages(req.user, function(err, messages) {
+		console.log(messages);
+
+		var msglist = [];
+		for(var i = 0; i < messages.length; i++) {
+			console.log(messages[i].username);
+			for(var j = 0; j < messages[i].messages.length; j++) {
+				console.log(messages[i].messages[j].message);
+				var msg = {to: messages[i].username, 
+					msg: messages[i].messages[j].message};
+				msglist.push(msg);
+			}
+			console.log(" ");
+		}
+
+		res.render('messages', {messages: msglist});
+	});
 });
 
 router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {

@@ -4154,6 +4154,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .tab-content > .tab-pane {
   display: none;
+  padding: 15px 15px 15px 15px;
 }
 .tab-content > .active {
   display: block;
@@ -6755,3 +6756,7 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+.del_msg_btn .edit_msg_btn {
+  margin: 0 20px 0 0;
+}
