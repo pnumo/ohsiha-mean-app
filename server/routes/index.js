@@ -101,14 +101,14 @@ router.get('/messages', ensureAuthenticated, function(req, res, next) {
 
 		var msglist = [];
 		for(var i = 0; i < messages.length; i++) {
-			console.log(messages[i].username);
 			for(var j = 0; j < messages[i].messages.length; j++) {
-				console.log(messages[i].messages[j].message);
-				var msg = {to: messages[i].username, 
-					msg: messages[i].messages[j].message};
-				msglist.push(msg);
+				console.log("From: " + messages[i].messages[j].from);
+				if(messages[i].messages[j].from === req.user.username) {
+					var msg = {to: messages[i].username, 
+						msg: messages[i].messages[j].message};
+					msglist.push(msg);
+				}
 			}
-			console.log(" ");
 		}
 
 		res.render('messages', {messages: msglist});
@@ -116,10 +116,19 @@ router.get('/messages', ensureAuthenticated, function(req, res, next) {
 });
 
 router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {
-	var from = req.body.from;
 	var message = req.body.message;
+	var from = "";
+	var username = "";
 
-	User.getUserByUsername(req.user.username, function(err, user) {
+	if(req.body.from != null && req.body.from != 'undefined') {
+		from = req.body.from;
+		username = req.user.username;
+	} else {
+		from = req.user.username;
+		username = req.body.receiver;
+	}
+
+	User.getUserByUsername(username, function(err, user) {
 		if(err) throw err;
 		for(var i = user.messages.length-1; i >= 0; i--) {
 			if(user.messages[i].message === message && 
