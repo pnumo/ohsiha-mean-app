@@ -15,4 +15,4 @@ Passwords are hashed with Bcrypt.
 <br>
 AJAX is used for almost all requests and to make live changes to content.
 <br>
-Sending messages is done within Bootstrap modal. Confirming message deletion and editing messages is done with Bootbox which also used Bootstrap modals.
+Sending messages is done within Bootstrap modal. Confirming message deletion and editing messages is done with Bootbox which also uses Bootstrap modals.
