@@ -7,7 +7,7 @@ Application is automatically deployed into Heroku after each push and can be fou
 https://simple-social-media.herokuapp.com/
 <br><br>
 <h4>More detailed info:</h4>
-MongoDB is used to store and mongoose to model data.
+MongoDB is used to store and Mongoose to model data.
 <br>
 Authentication is done with Passport middleware.
 <br>
