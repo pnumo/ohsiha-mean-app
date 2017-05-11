@@ -102,7 +102,6 @@ router.get('/messages', ensureAuthenticated, function(req, res, next) {
 		var msglist = [];
 		for(var i = 0; i < messages.length; i++) {
 			for(var j = 0; j < messages[i].messages.length; j++) {
-				console.log("From: " + messages[i].messages[j].from);
 				if(messages[i].messages[j].from === req.user.username) {
 					var msg = {to: messages[i].username, 
 						msg: messages[i].messages[j].message};
@@ -113,6 +112,30 @@ router.get('/messages', ensureAuthenticated, function(req, res, next) {
 
 		res.render('messages', {messages: msglist});
 	});
+});
+
+router.post('/editmessage', ensureAuthenticated, function(req, res, next) {
+	var new_msg = req.body.new_msg;
+	var old_msg = req.body.old_msg;
+	var receiver = req.body.receiver;
+
+	User.getUserByUsername(receiver, function(err, user) {
+		if(err) throw err;
+		for(var i = 0; i < user.messages.length; i++) {
+			if(user.messages[i].from === req.user.username && 
+				user.messages[i].message === old_msg) {
+				console.log("Old msg: " + old_msg);
+				user.messages[i].message = new_msg;
+				console.log("New msg: " + user.messages[i].message);
+				user.markModified('messages');
+				user.save();
+				break;
+			}
+		}
+	});
+
+	req.flash('success_msg', 'You successfully edited a message.');
+	res.redirect('/messages');
 });
 
 router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {
@@ -135,6 +158,7 @@ router.post('/deletemessage', ensureAuthenticated, function(req, res, next) {
 				user.messages[i].from === from) {
 				user.messages.splice(i, 1);
 				user.save();
+				break;
 			}
 		}
 	});

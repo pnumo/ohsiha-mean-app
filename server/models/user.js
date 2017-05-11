@@ -68,3 +68,4 @@ module.exports.getSentMessages = function(user, callback) {
 	User.find({'messages.from': user.username}).select(
 		'username messages.from messages.message').exec(callback);
 }
+
