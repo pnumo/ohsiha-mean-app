@@ -14,3 +14,5 @@ Authentication is done with Passport middleware.
 Passwords are hashed with Bcrypt.
 <br>
 AJAX is used for almost all requests and to make live changes to content.
+<br>
+Bootstrap is utilized greatly (styles, modals).
